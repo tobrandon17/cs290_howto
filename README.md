@@ -1,2 +1,2 @@
-# cs290_howto
-#Initial Commit
+# Spotify Web API - How To
+Initial Commit
