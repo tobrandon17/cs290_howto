@@ -1,4 +1,4 @@
-# Spotify Web API - How To
+# Spotify Web API - How T
 
 ## This is the second header
 Initial Commit
