@@ -2,6 +2,4 @@ theme: jekyll-theme-cayman
 title: "Spotify Web API: How To"
 description: This how-to's intention is to explain the functionality of the API in detail of what is exactly happening when the requests for data are submitted and how they are retrieved. 
 
-favicon:
-  use_default: false
-  path: '/images/favicon.png'
+
