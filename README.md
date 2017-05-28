@@ -17,6 +17,8 @@ To do so, you will first need to log in to your Spotify account.
 
 ![Spotify My Application](/images/Spotify1.png)
 
+![Spotify Client ID](/images/Spotify2.png)
+
 ## Spotify Web API is RESTFul
 Spotify notes on their user guide that their API is based on REST principles. The common operations that they use are GET, POST, PUT, and DELETE. GET retrieves resources, POST creates resources, PUT changes and replaces resources, and DELETE is self-explanatory. 
 The way that Spotify Web API gains authentication is by sending an OAuth (open authorization) access token in the request header. OAuth is used primarily to allow third party services to access account information without requiring the user’s password to be disclosed. This will require the use of a client id and a client secret.
