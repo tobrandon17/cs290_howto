@@ -1,4 +1,8 @@
 # Spotify Web API - How To
 
-## This is the second header
+## What Is It?
+
+## How to Set it Up
+
+## Interactions with Spotify Web API
 Initial Commit
