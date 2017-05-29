@@ -17,7 +17,7 @@ To do so, we will first need to log in to a Spotify account. I will be demonstra
 After you have logged in, the "Create an Application" option will be available to you under the My Applications tab. Hitting the Create button will then register the app to you on the Spotify Developer Page.
 ![Spotify My Application](/images/Spotify1.png)
 
-After the application has been registered, you will be issued a Client ID as well as a Client Secret. The following is shown below. Please note that the Client Secret should be kept to yourself and that if you believe it has been compromised, you must regenerate it otherwise your application's identity can be stolen and other applications can masquerade as your own.
+After the application has been registered, you will be issued a Client ID as well as a Client Secret. The following is shown below. Please note that the Client Secret should be kept to yourself and that if you believe it has been compromised, you must regenerate it otherwise your application's identity can be stolen and other applications can masquerade as your own. As you can see, mine has been blanked out for security purposes.
 
 ![Spotify Client ID](/images/Spotify2.png)
 
@@ -167,10 +167,13 @@ After the application has been registered, you will be issued a Client ID as wel
 Spotify notes on their user guide that their API is based on REST (representational state transfer) principles. The common operations that they use are GET, POST, PUT, and DELETE. GET retrieves resources, POST creates resources, PUT changes and replaces resources, and DELETE is self-explanatory. 
 The way that Spotify Web API gains authentication is by sending an OAuth (open authorization) access token in the request header. OAuth is used primarily to allow third party services to access account information without requiring the user’s password to be disclosed. This will require the use of a client id and a client secret.
 
-
-## How to Set it Up
-
 ## Interactions with Spotify Web API
+Web API has a multitude of endpoints that are used to give external applications access to data within Spotify's music catalog as well as user data. Some examples of uases include features such as retrieving data from an artist's top tracks or albums, following or unfollowing artists, or even obtaining recommendations based on seeds.
+Specific methods and endpoints can be found here within Spotify's [Endpoint Reference Guide](https://developer.spotify.com/web-api/endpoint-reference/).
+### Playlists
+In this guide, we will be dealing specifically with some of the things that can be done with playlists. We will start with searching for a playlist first. 
+The following is an endpoint to search for a specific playlist: 
+https://api.spotify.com/v1/search?type=playlist
 
 ## Recap
 
