@@ -190,7 +190,6 @@ After the application has been registered, you will be issued a Client ID as wel
         }
       })();
     </script>
-    </script>
   </body>
 </html>
 
