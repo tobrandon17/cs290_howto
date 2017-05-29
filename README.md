@@ -44,17 +44,17 @@ After the application has been registered, you will be issued a Client ID as wel
       <h1>Logged in as {{display_name}}</h1>
       <div class="media">
         <div class="pull-left">
-          <img class="media-object" width="150" src="{{images.0.url}}" />
+          <img id='spotifyImage' class="media-object" width="150" src="\{{images.0.url}}" />
         </div>
         <div class="media-body">
           <dl class="dl-horizontal">
-            <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
-            <dt>Id</dt><dd>{{id}}</dd>
-            <dt>Email</dt><dd>{{email}}</dd>
-            <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
-            <dt>Link</dt><dd><a href="{{href}}">{{href}}</a></dd>
-            <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd>
-            <dt>Country</dt><dd>{{country}}</dd>
+            <dt>Display name</dt><dd class="clearfix" id='spotifyName'>\{{display_name}}</dd>
+            <dt>Id</dt><dd id='spotifyId'>\{{id}}</dd>
+            <dt>Email</dt><dd id='spotifyEmail'>\{{email}}</dd>
+            <dt>Spotify URI</dt><dd><a id='spotifyUrl' href="\{{external_urls.spotify}}">\{{external_urls.spotify}}</a></dd>
+            <dt>Link</dt><dd><a id='spotifyLink' href="\{{href}}">\{{href}}</a></dd>
+            <dt>Profile Image</dt><dd class="clearfix"><a id='spotifyImgUrl' href="\{{images.0.url}}">\{{images.0.url}}</a></dd>
+            <dt>Country</dt><dd>\{{country}}</dd>
           </dl>
         </div>
       </div>
@@ -64,7 +64,6 @@ After the application has been registered, you will be issued a Client ID as wel
       <h2>oAuth info</h2>
       <dl class="dl-horizontal">
         <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
-        <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}></dd>
       </dl>
     </script>
 
@@ -72,10 +71,8 @@ After the application has been registered, you will be issued a Client ID as wel
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script>
       (function() {
-        /**
-         * Obtains parameters from the hash of the URL
-         * @return Object
-         */
+       var stateKey = 'spotify_auth_state';
+
         function getHashParams() {
           var hashParams = {};
           var e, r = /([^&;=]+)=?([^&;]*)/g,
@@ -85,6 +82,7 @@ After the application has been registered, you will be issued a Client ID as wel
           }
           return hashParams;
         }
+        
         function generateRandomString(length) {
           var text = '';
           var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -134,7 +132,7 @@ After the application has been registered, you will be issued a Client ID as wel
               $('#loggedin').hide();
           }
           document.getElementById('login').addEventListener('click', function() {
-            var client_id = '3e7e32d903ec45e7a0dd7f6054ce8ba9';     //     
+            var client_id = '3e7e32d903ec45e7a0dd7f6054ce8ba9';     
             var redirect_uri = 'https://tobrandon17.github.io/cs290_howto/';
             var state = generateRandomString(16);
             localStorage.setItem(stateKey, state);
