@@ -11,11 +11,13 @@ An API is a shortened term for application programming interface. In short, it i
 Using the Spotify API, other external mediums can gain access to Spotify content. This can include data from albums, playlists, and user data. To access user data, however, authorization will have to be granted first. The basic steps of using the Spotify Web API are as follows. First, you will have to register an application with Spotify, authenticate a user, retrieve access to that user’s data, and then retrieve data from a Web API endpoint. 
 
 
-To do so, you will first need to log in to your Spotify account.
+To do so, we will first need to log in to a Spotify account. I will be demonstrating on an existing account that I have created for myself. Feel free to follow along with your own Spotify account using the link below.
 [Login](https://accounts.spotify.com/en/authorize?response_type=code&client_id=a5429cc04d0b4bf78872d22a60ec4c4b&scope=user-self-provisioning&redirect_uri=https:%2F%2Fdeveloper.spotify.com%2Fmy-applications%2Fcallback&state=fomnZJs3ql)
 
-
+After you have logged in, the "Create an Application" option will be available to you under the My Applications tab. Hitting the Create button will then register the app to you on the Spotify Developer Page.
 ![Spotify My Application](/images/Spotify1.png)
+
+After the application has been registered, you will be issued a Client ID as well as a Client Secret. The following is shown below. Please note that the Client Secret should be kept to yourself and that if you believe it has been compromised, you must regenerate it otherwise your application's identity can be stolen and other applications can masquerade as your own.
 
 ![Spotify Client ID](/images/Spotify2.png)
 
