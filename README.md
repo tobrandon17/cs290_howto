@@ -22,8 +22,24 @@ After the application has been registered, you will be issued a Client ID as wel
 ![Spotify Client ID](/images/Spotify2.png)
 
 
-<!--From Spotify GitHub examples: https://github.com/spotify/web-api-auth-examples-->
-  
+<html>
+  <head>
+    <title>Example of the Authorization Code flow with Spotify</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <style type="text/css">
+      #login, #loggedin {
+        display: none;
+      }
+      .text-overflow {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 500px;
+      }
+    </style>
+  </head>
+
+  <body>
     <div class="container">
       <div id="login">
         <button id="login-button" class="btn btn-success">Log in with Spotify</button>
@@ -119,6 +135,12 @@ After the application has been registered, you will be issued a Client ID as wel
                   userProfilePlaceholder.innerHTML = userProfileTemplate(response);
                   $('#login').hide();
                   $('#loggedin').show();
+
+    
+    
+  </body>
+</html>
+
 
 
 ## Spotify Web API is RESTFul
