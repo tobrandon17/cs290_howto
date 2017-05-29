@@ -17,9 +17,17 @@ To do so, we will first need to log in to a Spotify account. I will be demonstra
 After you have logged in, the "Create an Application" option will be available to you under the My Applications tab. Hitting the Create button will then register the app to you on the Spotify Developer Page.
 ![Spotify My Application](/images/Spotify1.png)
 
+### Web API Authorization
+
 After the application has been registered, you will be issued a Client ID as well as a Client Secret. The following is shown below. Please note that the Client Secret should be kept to yourself and that if you believe it has been compromised, you must regenerate it otherwise your application's identity can be stolen and other applications can masquerade as your own. As you can see, mine has been blanked out for security purposes.
 
 ![Spotify Client ID](/images/Spotify2.png)
+
+Below is an image showing the type of user data that can be retrieved through Spotify Web API. The type of authorization used here is known as implicit grant. What this means is that authorization is done through the client's end and that server-side code is not required to use it. First, the application would request authorization to access data and then he user will then be prompted to log in. The application would be redirected to an application that passes the access token which is used by the Web API to return the requested data.
+
+![User Info OAuth](/images/Spotify3.png)
+
+[Try it for yourself!](http://jsfiddle.net/JMPerez/62wafrm7/)
 
 [comment]: <> (This code is found on https://github.com/spotify/web-api-auth-examples/blob/master/authorization_code/)
 <html>
