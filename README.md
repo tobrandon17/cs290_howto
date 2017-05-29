@@ -21,148 +21,33 @@ After the application has been registered, you will be issued a Client ID as wel
 
 ![Spotify Client ID](/images/Spotify2.png)
 
-[comment]: <> (This code is found on https://github.com/spotify/web-api-auth-examples/blob/master/authorization_code/)
 <html>
-  <head>
-   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-   <style type="text/css">
-      #login, #loggedin {
-        display: none;
-      }
-      .text-overflow {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        width: 500px;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div class="container">
-      <div id="login">
-        <a href="" class="btn btn-primary">Log in with Spotify</a>
-      </div>
-      <div id="loggedin">
-        <div id="user-profile">
-        </div>
-        <div id="oauth">
-        </div>
-        <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
-      </div>
-    </div>
-
-    <script id="user-profile-template" type="text/x-handlebars-template">
-      <h1>Logged in as {{display_name}}</h1>
-      <div class="media">
-        <div class="pull-left">
-          <img id='spotifyImage' class="media-object" width="150" src="\{{images.0.url}}" />
-        </div>
-        <div class="media-body">
-          <dl class="dl-horizontal">
-            <dt>Display name</dt><dd class="clearfix" id='spotifyName'>\{{display_name}}</dd>
-            <dt>Id</dt><dd id='spotifyId'>\{{id}}</dd>
-            <dt>Email</dt><dd id='spotifyEmail'>\{{email}}</dd>
-            <dt>Spotify URI</dt><dd><a id='spotifyUrl' href="\{{external_urls.spotify}}">\{{external_urls.spotify}}</a></dd>
-            <dt>Link</dt><dd><a id='spotifyLink' href="\{{href}}">\{{href}}</a></dd>
-            <dt>Profile Image</dt><dd class="clearfix"><a id='spotifyImgUrl' href="\{{images.0.url}}">\{{images.0.url}}</a></dd>
-            <dt>Country</dt><dd>\{{country}}</dd>
-          </dl>
-        </div>
-      </div>
-    </script>
-
-    <script id="oauth-template" type="text/x-handlebars-template">
-      <h2>oAuth info</h2>
-      <dl class="dl-horizontal">
-        <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
-      </dl>
-    </script>
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script>
-      (function() {
-       var stateKey = 'spotify_auth_state';
-
-        function getHashParams() {
-          var hashParams = {};
-          var e, r = /([^&;=]+)=?([^&;]*)/g,
-              q = window.location.hash.substring(1);
-          while ( e = r.exec(q)) {
-             hashParams[e[1]] = decodeURIComponent(e[2]);
-          }
-          return hashParams;
-        }
-        
-        function generateRandomString(length) {
-          var text = '';
-          var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-          for (var i = 0; i < length; i++) {
-            text += possible.charAt(Math.floor(Math.random() * possible.length));
-          }
-          return text;
-        };
-        
-        var userProfileSource = document.getElementById('user-profile-template').innerHTML,
-            userProfileTemplate = Handlebars.compile(userProfileSource),
-            userProfilePlaceholder = document.getElementById('user-profile');
-        var oauthSource = document.getElementById('oauth-template').innerHTML,
-            oauthTemplate = Handlebars.compile(oauthSource),
-            oauthPlaceholder = document.getElementById('oauth');
-        var params = getHashParams();
-        var access_token = params.access_token,
-            state = params.state,
-            storedState = localStorage.getItem(stateKey);
-        if (access_token && (state == null || state !== storedState)) {
-          alert('There was an error during the authentication');
-        } else {
-          localStorage.removeItem(stateKey);
-          if (access_token) {
-            $.ajax({
-                url: 'https://api.spotify.com/v1/me',
-                headers: {
-                  'Authorization': 'Bearer ' + access_token
-                },
-                success: function(response) {
-                  userProfilePlaceholder.innerHTML = userProfileTemplate(response);
-                  $('#login').hide();
-                  $('#loggedin').show();
-
-                  if (response.display_name == null) document.getElementById('spotifyName').textContent = '[No display name received from Spotify]';
-                  if (typeof(response.images[0]) == 'undefined') {
-                    document.getElementById('spotifyImage').src = 'images/noImage.png';
-                    document.getElementById('spotifyImgUrl').textContent = '[No image received from Spotify]';
-                    document.getElementById('spotifyImgUrl').href = '#';
-                  }
-                  
-                  location.hash = '#authenticated';
-                }
-            });
-          } else {
-              $('#login').show();
-              $('#loggedin').hide();
-          }
-          document.getElementById('login').addEventListener('click', function() {
-            var client_id = '3e7e32d903ec45e7a0dd7f6054ce8ba9';     
-            var redirect_uri = 'https://tobrandon17.github.io/cs290_howto/';
-            var state = generateRandomString(16);
-            localStorage.setItem(stateKey, state);
-            var scope = 'user-read-private user-read-email';
-            var url = 'https://accounts.spotify.com/authorize';
-            url += '?response_type=token';
-            url += '&client_id=' + encodeURIComponent(client_id);
-            url += '&scope=' + encodeURIComponent(scope);
-            url += '&redirect_uri=' + encodeURIComponent(redirect_uri);
-            url += '&state=' + encodeURIComponent(state);
-            window.location = url;
-          }, false);
-        }
-      })();
-    </script>
-  </body>
+<div class="container">
+    <h1>Displaying User Data</h1>
+    <p>Log in with your Spotify account and this demo will display information about you fetched using the Spotify Web API</p>
+    <button class="btn btn-primary" id="btn-login">Login</button>
+    <div id="result"></div>
+</div>
+<script id="result-template" type="text/x-handlebars-template">
+    <dl>
+      <img src="{{images.0.url}}">
+      <dt>User Name</dt>
+      <dd>{{id}}</dd>
+      <dt>Display Name</dt>
+      <dd>{{display_name}}</dd>
+      <dt>Country</dt>
+      <dd>{{country}}</dd>
+      <dt>Followers</dt>
+      <dd>{{followers.total}}</dd>
+      <dt>Profile</dt>
+      <dd><a href="{{external_urls.spotify}}" target="_blank">{{external_urls.spotify}}</a></dd>
+      <dt>Email</dt>
+      <dd>{{email}}</dd>
+      <dt>Product</dt>
+      <dd>{{product}}</dd>
+    </dl>
+</script>
 </html>
-
 
 ## Spotify Web API follows REST
 Spotify notes on their user guide that their API is based on REST (representational state transfer) principles. The common operations that they use are GET, POST, PUT, and DELETE. GET retrieves resources, POST creates resources, PUT changes and replaces resources, and DELETE is self-explanatory. 
