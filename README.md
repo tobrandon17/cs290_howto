@@ -24,6 +24,7 @@ After the application has been registered, you will be issued a Client ID as wel
 
 <html>
   <head>
+   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
    <style type="text/css">
       #login, #loggedin {
         display: none;
