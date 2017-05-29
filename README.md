@@ -41,7 +41,7 @@ After the application has been registered, you will be issued a Client ID as wel
   <body>
     <div class="container">
       <div id="login">
-        <button id="login" class="btn btn-success">Log in with Spotify</button>
+        <button id="login" class="btn btn-primary">Log in with Spotify</button>
       </div>
       <div id="loggedin">
         <div id="user-profile">
