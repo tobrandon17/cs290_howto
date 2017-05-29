@@ -21,8 +21,7 @@ After the application has been registered, you will be issued a Client ID as wel
 
 ![Spotify Client ID](/images/Spotify2.png)
 
-'''
-<!doctype html>
+
 <html>
   <head>
     <title>Example of the Authorization Code flow with Spotify</title>
@@ -154,7 +153,7 @@ After the application has been registered, you will be issued a Client ID as wel
     </script>
   </body>
 </html>
-'''
+
 
 ## Spotify Web API is RESTFul
 Spotify notes on their user guide that their API is based on REST principles. The common operations that they use are GET, POST, PUT, and DELETE. GET retrieves resources, POST creates resources, PUT changes and replaces resources, and DELETE is self-explanatory. 
