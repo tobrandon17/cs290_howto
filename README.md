@@ -173,7 +173,7 @@ Specific methods and endpoints can be found here within Spotify's [Endpoint Refe
 ### Playlists
 In this guide, we will be dealing specifically with some of the things that can be done with playlists. We will start with searching for a playlist first. 
 The following is an endpoint to search for a specific playlist: 
-<addr> https://api.spotify.com/v1/search?type=playlist
+* https://api.spotify.com/v1/search?type=playlist
 
 ## Recap
 
