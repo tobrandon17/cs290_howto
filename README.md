@@ -21,7 +21,7 @@ After the application has been registered, you will be issued a Client ID as wel
 
 ![Spotify Client ID](/images/Spotify2.png)
 
-
+[comment]: <> (This code is found on https://github.com/spotify/web-api-auth-examples/blob/master/authorization_code/)
 <html>
   <head>
    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
