@@ -24,6 +24,17 @@ After the application has been registered, you will be issued a Client ID as wel
 
 <html>
   <head>
+   <style type="text/css">
+      #login, #loggedin {
+        display: none;
+      }
+      .text-overflow {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 500px;
+      }
+    </style>
   </head>
 
   <body>
