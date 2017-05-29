@@ -29,4 +29,7 @@ The way that Spotify Web API gains authentication is by sending an OAuth (open a
 ## How to Set it Up
 
 ## Interactions with Spotify Web API
-Initial Commit
+
+## Recap
+
+In this guide, we have covered topics regarding the authorization of Spotify Web API, what happens when a GET request is made, and what kind of response we will would expect to see. This was meant to be a brief introduction to demonstrate a few of the endpoints within Spotify Web API. There are many more things that can be accomplished with this API. Feel free to explore more within Spotify's [Official Documentation](https://developer.spotify.com/web-api/)!
