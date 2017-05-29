@@ -24,9 +24,8 @@ After the application has been registered, you will be issued a Client ID as wel
 
 <html>
   <head>
-    <title>Example of the Authorization Code flow with Spotify</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <style type="text/css">
+   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+   <style type="text/css">
       #login, #loggedin {
         display: none;
       }
@@ -42,8 +41,7 @@ After the application has been registered, you will be issued a Client ID as wel
   <body>
     <div class="container">
       <div id="login">
-        <h1>This is an example of the Authorization Code flow</h1>
-        <a href="/login" class="btn btn-primary">Log in with Spotify</a>
+        <a id="login" class="btn btn-primary">Log in with Spotify</a>
       </div>
       <div id="loggedin">
         <div id="user-profile">
@@ -58,17 +56,17 @@ After the application has been registered, you will be issued a Client ID as wel
       <h1>Logged in as {{display_name}}</h1>
       <div class="media">
         <div class="pull-left">
-          <img class="media-object" width="150" src="{{images.0.url}}" />
+          <img id='spotifyImage' class="media-object" width="150" src="\{{images.0.url}}" />
         </div>
         <div class="media-body">
           <dl class="dl-horizontal">
-            <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
-            <dt>Id</dt><dd>{{id}}</dd>
-            <dt>Email</dt><dd>{{email}}</dd>
-            <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
-            <dt>Link</dt><dd><a href="{{href}}">{{href}}</a></dd>
-            <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd>
-            <dt>Country</dt><dd>{{country}}</dd>
+            <dt>Display name</dt><dd class="clearfix" id='spotifyName'>\{{display_name}}</dd>
+            <dt>Id</dt><dd id='spotifyId'>\{{id}}</dd>
+            <dt>Email</dt><dd id='spotifyEmail'>\{{email}}</dd>
+            <dt>Spotify URI</dt><dd><a id='spotifyUrl' href="\{{external_urls.spotify}}">\{{external_urls.spotify}}</a></dd>
+            <dt>Link</dt><dd><a id='spotifyLink' href="\{{href}}">\{{href}}</a></dd>
+            <dt>Profile Image</dt><dd class="clearfix"><a id='spotifyImgUrl' href="\{{images.0.url}}">\{{images.0.url}}</a></dd>
+            <dt>Country</dt><dd>\{{country}}</dd>
           </dl>
         </div>
       </div>
@@ -78,7 +76,6 @@ After the application has been registered, you will be issued a Client ID as wel
       <h2>oAuth info</h2>
       <dl class="dl-horizontal">
         <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
-        <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}></dd>
       </dl>
     </script>
 
@@ -86,10 +83,8 @@ After the application has been registered, you will be issued a Client ID as wel
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script>
       (function() {
-        /**
-         * Obtains parameters from the hash of the URL
-         * @return Object
-         */
+       var stateKey = 'spotify_auth_state';
+
         function getHashParams() {
           var hashParams = {};
           var e, r = /([^&;=]+)=?([^&;]*)/g,
@@ -99,6 +94,16 @@ After the application has been registered, you will be issued a Client ID as wel
           }
           return hashParams;
         }
+        
+        function generateRandomString(length) {
+          var text = '';
+          var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+          for (var i = 0; i < length; i++) {
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+          }
+          return text;
+        };
+        
         var userProfileSource = document.getElementById('user-profile-template').innerHTML,
             userProfileTemplate = Handlebars.compile(userProfileSource),
             userProfilePlaceholder = document.getElementById('user-profile');
@@ -107,17 +112,13 @@ After the application has been registered, you will be issued a Client ID as wel
             oauthPlaceholder = document.getElementById('oauth');
         var params = getHashParams();
         var access_token = params.access_token,
-            refresh_token = params.refresh_token,
-            error = params.error;
-        if (error) {
+            state = params.state,
+            storedState = localStorage.getItem(stateKey);
+        if (access_token && (state == null || state !== storedState)) {
           alert('There was an error during the authentication');
         } else {
+          localStorage.removeItem(stateKey);
           if (access_token) {
-            // render oauth info
-            oauthPlaceholder.innerHTML = oauthTemplate({
-              access_token: access_token,
-              refresh_token: refresh_token
-            });
             $.ajax({
                 url: 'https://api.spotify.com/v1/me',
                 headers: {
@@ -127,26 +128,34 @@ After the application has been registered, you will be issued a Client ID as wel
                   userProfilePlaceholder.innerHTML = userProfileTemplate(response);
                   $('#login').hide();
                   $('#loggedin').show();
+
+                  if (response.display_name == null) document.getElementById('spotifyName').textContent = '[No display name received from Spotify]';
+                  if (typeof(response.images[0]) == 'undefined') {
+                    document.getElementById('spotifyImage').src = 'images/noImage.png';
+                    document.getElementById('spotifyImgUrl').textContent = '[No image received from Spotify]';
+                    document.getElementById('spotifyImgUrl').href = '#';
+                  }
+                  
+                  location.hash = '#authenticated';
                 }
             });
           } else {
-              // render initial screen
               $('#login').show();
               $('#loggedin').hide();
           }
-          document.getElementById('obtain-new-token').addEventListener('click', function() {
-            $.ajax({
-              url: '/refresh_token',
-              data: {
-                'refresh_token': refresh_token
-              }
-            }).done(function(data) {
-              access_token = data.access_token;
-              oauthPlaceholder.innerHTML = oauthTemplate({
-                access_token: access_token,
-                refresh_token: refresh_token
-              });
-            });
+          document.getElementById('login').addEventListener('click', function() {
+            var client_id = '3e7e32d903ec45e7a0dd7f6054ce8ba9';     
+            var redirect_uri = 'https://tobrandon17.github.io/cs290_howto/';
+            var state = generateRandomString(16);
+            localStorage.setItem(stateKey, state);
+            var scope = 'user-read-private user-read-email';
+            var url = 'https://accounts.spotify.com/authorize';
+            url += '?response_type=token';
+            url += '&client_id=' + encodeURIComponent(client_id);
+            url += '&scope=' + encodeURIComponent(scope);
+            url += '&redirect_uri=' + encodeURIComponent(redirect_uri);
+            url += '&state=' + encodeURIComponent(state);
+            window.location = url;
           }, false);
         }
       })();
@@ -155,8 +164,8 @@ After the application has been registered, you will be issued a Client ID as wel
 </html>
 
 
-## Spotify Web API is RESTFul
-Spotify notes on their user guide that their API is based on REST principles. The common operations that they use are GET, POST, PUT, and DELETE. GET retrieves resources, POST creates resources, PUT changes and replaces resources, and DELETE is self-explanatory. 
+## Spotify Web API follows REST
+Spotify notes on their user guide that their API is based on REST (representational state transfer) principles. The common operations that they use are GET, POST, PUT, and DELETE. GET retrieves resources, POST creates resources, PUT changes and replaces resources, and DELETE is self-explanatory. 
 The way that Spotify Web API gains authentication is by sending an OAuth (open authorization) access token in the request header. OAuth is used primarily to allow third party services to access account information without requiring the user’s password to be disclosed. This will require the use of a client id and a client secret.
 
 
