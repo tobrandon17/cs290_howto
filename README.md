@@ -42,7 +42,6 @@ After the application has been registered, you will be issued a Client ID as wel
   <body>
     <div class="container">
       <div id="login">
-        <h1>This is an example of the Authorization Code flow</h1>
         <a href="/login" class="btn btn-primary">Log in with Spotify</a>
       </div>
       <div id="loggedin">
@@ -159,6 +158,38 @@ After the application has been registered, you will be issued a Client ID as wel
           }, false);
         }
       })();
+      
+      if (response.display_name == null) document.getElementById('spotifyName').textContent = '[No display name received from Spotify]';
+                  if (typeof(response.images[0]) == 'undefined') {
+                    document.getElementById('spotifyImage').src = 'images/noImage.png';
+                    document.getElementById('spotifyImgUrl').textContent = '[No image received from Spotify]';
+                    document.getElementById('spotifyImgUrl').href = '#';
+                  }
+                  
+                  location.hash = '#authenticated';
+                }
+            });
+          } else {
+              $('#login').show();
+              $('#loggedin').hide();
+          }
+          document.getElementById('login-button').addEventListener('click', function() {
+            var client_id = '3e7e32d903ec45e7a0dd7f6054ce8ba9';     //     
+            var redirect_uri = 'https://tobrandon17.github.io/cs290_howto/';
+            var state = generateRandomString(16);
+            localStorage.setItem(stateKey, state);
+            var scope = 'user-read-private user-read-email';
+            var url = 'https://accounts.spotify.com/authorize';
+            url += '?response_type=token';
+            url += '&client_id=' + encodeURIComponent(client_id);
+            url += '&scope=' + encodeURIComponent(scope);
+            url += '&redirect_uri=' + encodeURIComponent(redirect_uri);
+            url += '&state=' + encodeURIComponent(state);
+            window.location = url;
+          }, false);
+        }
+      })();
+    </script>
     </script>
   </body>
 </html>
