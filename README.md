@@ -24,19 +24,6 @@ After the application has been registered, you will be issued a Client ID as wel
 
 <html>
   <head>
-    <title>Example of the Authorization Code flow with Spotify</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <style type="text/css">
-      #login, #loggedin {
-        display: none;
-      }
-      .text-overflow {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        width: 500px;
-      }
-    </style>
   </head>
 
   <body>
@@ -115,17 +102,13 @@ After the application has been registered, you will be issued a Client ID as wel
             oauthPlaceholder = document.getElementById('oauth');
         var params = getHashParams();
         var access_token = params.access_token,
-            refresh_token = params.refresh_token,
-            error = params.error;
-        if (error) {
+            state = params.state,
+            storedState = localStorage.getItem(stateKey);
+        if (access_token && (state == null || state !== storedState)) {
           alert('There was an error during the authentication');
         } else {
+          localStorage.removeItem(stateKey);
           if (access_token) {
-            // render oauth info
-            oauthPlaceholder.innerHTML = oauthTemplate({
-              access_token: access_token,
-              refresh_token: refresh_token
-            });
             $.ajax({
                 url: 'https://api.spotify.com/v1/me',
                 headers: {
@@ -135,31 +118,8 @@ After the application has been registered, you will be issued a Client ID as wel
                   userProfilePlaceholder.innerHTML = userProfileTemplate(response);
                   $('#login').hide();
                   $('#loggedin').show();
-                }
-            });
-          } else {
-              // render initial screen
-              $('#login').show();
-              $('#loggedin').hide();
-          }
-          document.getElementById('obtain-new-token').addEventListener('click', function() {
-            $.ajax({
-              url: '/refresh_token',
-              data: {
-                'refresh_token': refresh_token
-              }
-            }).done(function(data) {
-              access_token = data.access_token;
-              oauthPlaceholder.innerHTML = oauthTemplate({
-                access_token: access_token,
-                refresh_token: refresh_token
-              });
-            });
-          }, false);
-        }
-      })();
-      
-      if (response.display_name == null) document.getElementById('spotifyName').textContent = '[No display name received from Spotify]';
+
+                  if (response.display_name == null) document.getElementById('spotifyName').textContent = '[No display name received from Spotify]';
                   if (typeof(response.images[0]) == 'undefined') {
                     document.getElementById('spotifyImage').src = 'images/noImage.png';
                     document.getElementById('spotifyImgUrl').textContent = '[No image received from Spotify]';
