@@ -173,7 +173,7 @@ After the application has been registered, you will be issued a Client ID as wel
               $('#login').show();
               $('#loggedin').hide();
           }
-          document.getElementById('login-button').addEventListener('click', function() {
+          document.getElementById('login').addEventListener('click', function() {
             var client_id = '3e7e32d903ec45e7a0dd7f6054ce8ba9';     //     
             var redirect_uri = 'https://tobrandon17.github.io/cs290_howto/';
             var state = generateRandomString(16);
