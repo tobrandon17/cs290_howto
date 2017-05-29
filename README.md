@@ -41,7 +41,7 @@ After the application has been registered, you will be issued a Client ID as wel
   <body>
     <div class="container">
       <div id="login">
-        <button id="login" class="btn btn-primary">Log in with Spotify</button>
+        <a href="/login" class="btn btn-primary">Log in with Spotify</a>
       </div>
       <div id="loggedin">
         <div id="user-profile">
@@ -164,7 +164,7 @@ After the application has been registered, you will be issued a Client ID as wel
 </html>
 
 
-## Spotify Web API is RESTFul
+## Spotify Web API follows REST
 Spotify notes on their user guide that their API is based on REST principles. The common operations that they use are GET, POST, PUT, and DELETE. GET retrieves resources, POST creates resources, PUT changes and replaces resources, and DELETE is self-explanatory. 
 The way that Spotify Web API gains authentication is by sending an OAuth (open authorization) access token in the request header. OAuth is used primarily to allow third party services to access account information without requiring the user’s password to be disclosed. This will require the use of a client id and a client secret.
 
